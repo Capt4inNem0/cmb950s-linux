@@ -1,1 +1,1 @@
-rmmod cmb950s; insmod /mnt/src/cmb950s.ko
+rmmod cmb950s; insmod ./cmb950s.ko

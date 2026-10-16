@@ -1,0 +1,11 @@
+[Unit]
+Description=CM-B950 display updater
+After=multi-user.target
+
+[Service]
+ExecStart=/usr/local/bin/cmb950sd.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

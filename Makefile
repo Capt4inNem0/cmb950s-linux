@@ -1,5 +1,5 @@
 obj-m += cmb950s.o
-KDIR ?= /home/cnemo/linux
+KDIR ?= /usr/lib/modules/$(shell uname -r)/build
 VID = 0x5131
 PID = 0x2007
 
@@ -21,3 +21,14 @@ qemu:
 		-device qemu-xhci -device usb-host,vendorid=$(VID),productid=$(PID) \
 		-netdev user,id=n0,hostfwd=tcp::2222-:22 -device virtio-net,netdev=n0 \
 		-nographic
+
+install-service:
+	sudo install -m 755 tools/cmb950sd.py /usr/local/bin/cmb950sd.py
+	sudo install -m 644 tools/cmb950s.service /etc/systemd/system/cmb950s.service
+	sudo systemctl daemon-reload
+	sudo systemctl enable --now cmb950s.service
+
+uninstall-service:
+	sudo systemctl disable --now cmb950s.service
+	sudo rm -f /etc/systemd/system/cmb950s.service /usr/local/bin/cmb950sd.py
+	sudo systemctl daemon-reload
